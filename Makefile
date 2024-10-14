@@ -6,10 +6,14 @@ build:
 	#docker build --build-arg UBUNTU_VERSION=24.04 -t python-ubuntu-24.04 -f Dockerfile.template .
 
 	# Run containers and extract binaries
-	# 	docker run --rm -v $(CURDIR)/output:/app/dist python-ubuntu-20.04
+	#docker run --rm -v $(CURDIR)/output:/app/dist python-ubuntu-20.04
 	#docker run --rm -v $(CURDIR)/output:/app/output --user $(id -u):$(id -g) python-ubuntu-22.04
 	#docker run --rm -v $(CURDIR)/output:/app/output --user $(id -u):$(id -g) python-ubuntu-24.04
 
+	#docker cp python-ubuntu-20.04:/app/dist/script .
+	docker create --name dummy python-ubuntu-20.04
+	docker cp dummy:/app/dist/script ./sss
+	docker rm -f dummy
 	# Verify contents of the output directory
 	# 	docker run --rm -v $(CURDIR)/output:/app/output --entrypoint /bin/sh python-ubuntu-20.04 -c 'ls -laR /app'
 

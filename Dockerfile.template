@@ -21,5 +21,5 @@ RUN python3 -m venv /app/venv \
     && pip install -r requirements.txt \
     && pyinstaller --onefile script.py --distpath /app/dist
 
-FROM ubuntu:${UBUNTU_VERSION:-20.04}
-    COPY --from=builder /app/dist/script /output/script_ubuntu_1
+#FROM ubuntu:${UBUNTU_VERSION:-20.04}
+#    COPY --from=builder /app/dist/script /output/script_ubuntu_1
