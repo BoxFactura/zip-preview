@@ -1,21 +1,25 @@
-ARG UBUNTU_VERSION=22.04
-FROM ubuntu:${UBUNTU_VERSION}
-RUN echo "Building for Ubuntu version: ${UBUNTU_VERSION}"
+# Dockerfile template for Ubuntu LTS versions
+ARG UBUNTU_VERSION=20.04
+FROM ubuntu:${UBUNTU_VERSION} AS builder
 
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    build-essential \
-    zip \
-    python3-venv
+RUN apt-get update && apt-get install -y git sudo make ruby bundler python3 python3-pip build-essential zip python3-venv
+
+RUN adduser --disabled-password --gecos '' docker
+RUN adduser docker sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN mkdir -p /app /output && chown -R docker /app /output
+
+USER docker
+WORKDIR /app
 
 COPY ./script.py /app/script.py
 COPY ./requirements.txt /app/requirements.txt
-WORKDIR /app
 
-RUN apt-get update && apt-get install -y python3-venv \
-    && python3 -m venv /app/venv \
+RUN python3 -m venv /app/venv \
     && . /app/venv/bin/activate \
     && pip install -r requirements.txt \
-    && pyinstaller --onefile script.py --distpath /app/dist \
-    && if [ -f "/app/dist/script" ]; then mkdir -p /output && cp /app/dist/script /output/script_ubuntu_${UBUNTU_VERSION:-20.04}; else echo "PyInstaller failed to create the output binary" && exit 1; fi
+    && pyinstaller --onefile script.py --distpath /app/dist
+
+FROM ubuntu:${UBUNTU_VERSION:-20.04}
+    COPY --from=builder /app/dist/script /output/script_ubuntu_1
