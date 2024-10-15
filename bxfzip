@@ -1,16 +1,3 @@
-
-
-# python_binaries.gemspec
-Gem::Specification.new do |s|
-  s.name        = 'python_binaries'
-  s.version     = '0.0.1'
-  s.summary     = 'Python script binaries for Ubuntu'
-  s.files       = Dir['output/script_ubuntu_*.gz']
-  s.executables << 'python_binary_extractor'
-end
-
-
-# python_binary_extractor
 #!/usr/bin/env ruby
 
 require 'rbconfig'
@@ -37,6 +24,8 @@ suffix = case RbConfig::CONFIG['host_os']
          else
            'unknown'
          end
+
+suffix = ENV['BXFZIP_SUFFIX'] unless ENV['BXFZIP_SUFFIX'].to_s.empty?
 
 binary = "#{__FILE__}_#{suffix}"
 
