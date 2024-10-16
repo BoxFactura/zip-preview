@@ -1,16 +1,9 @@
-# Dockerfile template for Ubuntu LTS versions
 ARG UBUNTU_VERSION=20.04
 FROM ubuntu:${UBUNTU_VERSION} AS builder
 
 RUN apt-get update && apt-get install -y git sudo make ruby bundler python3 python3-pip build-essential zip python3-venv
 
-RUN adduser --disabled-password --gecos '' docker
-RUN adduser docker sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-RUN mkdir -p /app /output && chown -R docker /app /output
-
-USER docker
+RUN mkdir -p /app
 WORKDIR /app
 
 COPY ./src/bxfzip.py /app/bxfzip.py
@@ -20,6 +13,3 @@ RUN python3 -m venv /app/venv \
     && . /app/venv/bin/activate \
     && pip install -r requirements.txt \
     && pyinstaller --onefile bxfzip.py --distpath /app/dist
-
-#FROM ubuntu:${UBUNTU_VERSION:-20.04}
-#    COPY --from=builder /app/dist/script /output/script_ubuntu_1

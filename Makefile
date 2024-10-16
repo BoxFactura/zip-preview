@@ -17,5 +17,7 @@ build:
 		#rm bin/bxfzip-ubuntu-$$version\_amd64; \
 	done
 
-	#chmod +x python_binary_extractor
+	chmod +x bin/bxfzip
+	gem build bxfzip.gemspec
+
 	#docker rmi python-ubuntu-20.04 python-ubuntu-22.04 python-ubuntu-24.04 || true

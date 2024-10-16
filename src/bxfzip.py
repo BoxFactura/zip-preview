@@ -4,7 +4,7 @@ import pyzipper
 import sys
 
 def bxfzip(source_folder, destination_zip_file):
-    with pyzipper.AESZipFile(destination_zip_file, 'w', compression=pyzipper.ZIP_DEFLATED) as zip_file:
+    with pyzipper.AESZipFile(destination_zip_file, 'a', compression=pyzipper.ZIP_DEFLATED) as zip_file:
         for root, _, files in os.walk(source_folder):
             for file in files:
                 full_path = os.path.join(root, file)
@@ -28,7 +28,7 @@ def main():
     try:
         bxfzip(folder_path, zip_filename)
         if args.debug:
-        print(f"Successfully compressed '{folder_path}' into '{zip_filename}'")
+            print(f"Successfully compressed '{folder_path}' into '{zip_filename}'")
     except Exception as e:
         print(f"An error occurred during compression: {e}", file=sys.stderr)
         exit(1)
