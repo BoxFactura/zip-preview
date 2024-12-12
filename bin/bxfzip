@@ -21,6 +21,15 @@ suffix = case RbConfig::CONFIG['host_os']
            os = 'ubuntu-20.04' if os.start_with?('ubuntu_20.')
            os = 'ubuntu-22.04' if os.start_with?('ubuntu_22.')
            os = 'ubuntu-24.04' if os.start_with?('ubuntu_24.')
+           os_based_on_debian_9 = os.start_with?('debian_9') ||
+                                  os.start_with?('deepin')
+           os = 'debian_9' if os_based_on_debian_9
+
+           os = 'debian_10' if !os_based_on_debian_9 && os.start_with?('debian_10')
+
+           os = 'debian_11' if !os_based_on_debian_9 && os.start_with?('debian_11')
+
+           os = 'debian_12' if !os_based_on_debian_9 && os.start_with?('debian_12')
            "#{os}_#{architecture}"
          else
            'unknown'

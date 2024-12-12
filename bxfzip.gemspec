@@ -2,7 +2,7 @@ Gem::Specification.new do |spec|
   spec.name        = 'bxfzip'
   spec.authors     = 'Rafael Soto'
   spec.email       = 'rsoto@bxf.mx'
-  spec.version     = '0.0.1'
+  spec.version     = '0.0.2'
   spec.summary     = 'pyzipper for Box Factura'
   spec.files       = Dir['bin/*']
   spec.executables << 'bxfzip'
