@@ -37,7 +37,7 @@ if File.exist?("#{binary}.gz") && !File.exist?(binary)
 end
 
 unless File.exist? binary
-  raise 'Invalid platform, must be running on Ubuntu 20.04/22.04/24.04.'
+  raise "Invalid platform, must be running on Ubuntu 20.04/22.04/24.04. -- #{binary}"
 end
 
 exec(*ARGV.unshift(binary))
